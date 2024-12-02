@@ -1,5 +1,7 @@
 name: Release Drafter
+tag: "v{{Resolvedversion}}"
 categories:
+
   - label: feature
     title: ✨ Features
   - label: bug
@@ -9,30 +11,32 @@ categories:
   - label: maintenance
     title: 🔧 Maintenance
 template: |
-  ## 🚀 Release Notes for $NEW_VERSION
+ 
+  ## 🚀 Release Notes for v{{version}}
+
 
   ### ✨ Features
-  {{#pullRequests}}
-  {{#contains $BODY '### Features'}}
-  - $TITLE (#$NUMBER) by @$AUTHOR: $BODY
-  {{/contains}}
-  {{/pullRequests}}
+  {{#changelog.feature}}
+  - {{title}} (#{{number}}) by @{{author}}: {{body}}
+  {{/changelog.feature}}
 
   ### 🐞 Bug Fixes
-  {{#pullRequests}}
-  {{#contains $BODY '### Bug Fixes'}}
-  - $TITLE (#$NUMBER) by @$AUTHOR: $BODY
-  {{/contains}}
-  {{/pullRequests}}
+  {{#changelog.bug}}
+  - {{title}} (#{{number}}) by @{{author}}: {{body}}
+  {{/changelog.bug}}
 
   ### 📄 Documentation
-  {{#pullRequests}}
-  {{#contains $BODY '### Documentation'}}
-  - $TITLE (#$NUMBER) by @$AUTHOR: $BODY
-  {{/contains}}
-  {{/pullRequests}}
+  {{#changelog.documentation}}
+  - {{title}} (#{{number}}) by @{{author}}: {{body}}
+  {{/changelog.documentation}}
+
+  ### 🔧 Maintenance
+  {{#changelog.maintenance}}
+  - {{title}} (#{{number}}) by @{{author}}: {{body}}
+  {{/changelog.maintenance}}
 
   ## 🏅 Contributors
   {{#contributors}}
   - @$USERNAME
+
   {{/contributors}}

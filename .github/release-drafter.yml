@@ -50,33 +50,29 @@ version-resolver:
 template: |
   🚀 Release Notes for $RESOLVED_VERSION
 
-  ## ✨ Features
-  {{#categories.Features}}
-  {{#pullRequests}}
-  - $TITLE (#$NUMBER) by @$AUTHOR: $BODY
-  {{/pullRequests}}
-  {{/categories.Features}}
+  template: |
+  ## 🚀 Release Notes for $NEW_VERSION
 
-  ## 🐞 Bug Fixes
-  {{#categories.Bug Fixes}}
+  ### ✨ Features
   {{#pullRequests}}
+  {{#contains $BODY '### Features'}}
   - $TITLE (#$NUMBER) by @$AUTHOR: $BODY
+  {{/contains}}
   {{/pullRequests}}
-  {{/categories.Bug Fixes}}
 
-  ## 📄 Other Changes
-  {{#categories.Other Changes}}
+  ### 🐞 Bug Fixes
   {{#pullRequests}}
+  {{#contains $BODY '### Bug Fixes'}}
   - $TITLE (#$NUMBER) by @$AUTHOR: $BODY
+  {{/contains}}
   {{/pullRequests}}
-  {{/categories.Other Changes}}
 
-  ## 🔧 Maintenance
-  {{#categories.Maintenance}}
+  ### 📄 Documentation
   {{#pullRequests}}
+  {{#contains $BODY '### Documentation'}}
   - $TITLE (#$NUMBER) by @$AUTHOR: $BODY
+  {{/contains}}
   {{/pullRequests}}
-  {{/categories.Maintenance}}
 
   ## 🏅 Contributors
   {{#contributors}}

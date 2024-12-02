@@ -1,4 +1,5 @@
 name: Release Drafter
+<<<<<<< HEAD
 tag: "$NEW_VERSION"
 categories:
   - title: "✨ Features"
@@ -15,6 +16,23 @@ categories:
       - "maintenance"
 template: |
   ## 🚀 Release Notes for $NEW_VERSION
+=======
+tag: "v{{Resolvedversion}}"
+categories:
+
+  - label: feature
+    title: ✨ Features
+  - label: bug
+    title: 🐞 Bug Fixes
+  - label: documentation
+    title: 📄 Other Changes
+  - label: maintenance
+    title: 🔧 Maintenance
+template: |
+ 
+  ## 🚀 Release Notes for v{{version}}
+>>>>>>> b1710f8dae9f1d7254d78887c9d69929ce764e42
+
 
   ### ✨ Features
   {{#changelog.feature}}
@@ -50,7 +68,8 @@ template: |
 
   ## 🏅 Contributors
   {{#contributors}}
-  - @{{username}}
+  - @$USERNAME
+
   {{/contributors}}
   {{^contributors}}
   No contributors in this release.

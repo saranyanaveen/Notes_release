@@ -1,22 +1,14 @@
----
 name: Release Drafter
 categories:
-  Features:
-    - label: feature
-    - title: ✨ Features
-  Bug Fixes:
-    - label: bug
-    - title: 🐞 Bug Fixes
-  Other Changes:
-    - label: documentation
-    - title: 📄 Other Changes
-  Maintenance:
-    - label: maintenance
-    - title: 🔧 Maintenance
+  - label: feature
+    title: ✨ Features
+  - label: bug
+    title: 🐞 Bug Fixes
+  - label: documentation
+    title: 📄 Other Changes
+  - label: maintenance
+    title: 🔧 Maintenance
 template: |
-  ## 🚀 Release Notes for $NEW_VERSION
-
-  template: |
   ## 🚀 Release Notes for $NEW_VERSION
 
   ### ✨ Features

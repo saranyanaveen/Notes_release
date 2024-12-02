@@ -1,82 +1,44 @@
-name-template: "v$RESOLVED_VERSION"
-tag-template: "v$RESOLVED_VERSION"
-
+---
+name: Release Drafter
 categories:
-  - title: "✨ Features"
-    labels:
-      - feature
-      - enhancement
-      - new-feature
-      - feat
-  - title: "🐞 Bug Fixes"
-    labels:
-      - fix
-      - bugfix
-      - bug
-      - defect
-  - title: "📄 Other Changes"
-    labels:
-      - other
-      - documentation
-      - docs
-  - title: "🔧 Maintenance"
-    labels:
-      - chore
-      - refactor
-      - maintenance
-
-change-template: '- $TITLE (#$NUMBER) by @$AUTHOR: $BODY'
-
-version-resolver:
-  major:
-    labels:
-      - major
-      - breaking-change
-  minor:
-    labels:
-      - minor
-      - feature
-      - feat
-      - enhancement
-  patch:
-    labels:
-      - patch
-      - fix
-      - bug
-      - chore
-      - maintenance
-  default: patch
-
+  Features:
+    - label: feature
+    - title: ✨ Features
+  Bug Fixes:
+    - label: bug
+    - title: 🐞 Bug Fixes
+  Other Changes:
+    - label: documentation
+    - title: 📄 Other Changes
+  Maintenance:
+    - label: maintenance
+    - title: 🔧 Maintenance
 template: |
-  🚀 Release Notes for $RESOLVED_VERSION
+  ## 🚀 Release Notes for $NEW_VERSION
 
-  ## ✨ Features
-  {{#categories.Features}}
-  {{#pullRequests}}
-  - $TITLE (#$NUMBER) by @$AUTHOR: $BODY
-  {{/pullRequests}}
-  {{/categories.Features}}
+  template: |
+  ## 🚀 Release Notes for $NEW_VERSION
 
-  ## 🐞 Bug Fixes
-  {{#categories.Bug Fixes}}
+  ### ✨ Features
   {{#pullRequests}}
+  {{#contains $BODY '### Features'}}
   - $TITLE (#$NUMBER) by @$AUTHOR: $BODY
+  {{/contains}}
   {{/pullRequests}}
-  {{/categories.Bug Fixes}}
 
-  ## 📄 Other Changes
-  {{#categories.Other Changes}}
+  ### 🐞 Bug Fixes
   {{#pullRequests}}
+  {{#contains $BODY '### Bug Fixes'}}
   - $TITLE (#$NUMBER) by @$AUTHOR: $BODY
+  {{/contains}}
   {{/pullRequests}}
-  {{/categories.Other Changes}}
 
-  ## 🔧 Maintenance
-  {{#categories.Maintenance}}
+  ### 📄 Documentation
   {{#pullRequests}}
+  {{#contains $BODY '### Documentation'}}
   - $TITLE (#$NUMBER) by @$AUTHOR: $BODY
+  {{/contains}}
   {{/pullRequests}}
-  {{/categories.Maintenance}}
 
   ## 🏅 Contributors
   {{#contributors}}

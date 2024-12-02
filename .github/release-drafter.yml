@@ -1,60 +1,43 @@
-<<<<<<< HEAD
-name: Release Drafter
-categories:
-  - label: feature
-    title: ✨ Features
-  - label: bug
-    title: 🐞 Bug Fixes
-  - label: documentation
-    title: 📄 Other Changes
-  - label: maintenance
-    title: 🔧 Maintenance
-template: |
-=======
 ---
 name: Release Drafter
+tag: v{{version}}
 categories:
-  Features:
-    - label: feature
-    - title: ✨ Features
-  Bug Fixes:
-    - label: bug
-    - title: 🐞 Bug Fixes
-  Other Changes:
-    - label: documentation
-    - title: 📄 Other Changes
-  Maintenance:
-    - label: maintenance
-    - title: 🔧 Maintenance
+  - title: ✨ Features
+    labels:
+      - feature
+  - title: 🐞 Bug Fixes
+    labels:
+      - bug
+  - title: 📄 Documentation
+    labels:
+      - documentation
+  - title: 🔧 Maintenance
+    labels:
+      - maintenance
 template: |
-  ## 🚀 Release Notes for $NEW_VERSION
-
-  template: |
->>>>>>> 3ced03065d638b37044d8f9d7695f81766ccbc85
-  ## 🚀 Release Notes for $NEW_VERSION
+  ## 🚀 Release Notes for v{{version}}
 
   ### ✨ Features
-  {{#pullRequests}}
-  {{#contains $BODY '### Features'}}
-  - $TITLE (#$NUMBER) by @$AUTHOR: $BODY
-  {{/contains}}
-  {{/pullRequests}}
+  {{#changelog.feature}}
+  - {{title}} (#{{number}}) by @{{author}}: {{body}}
+  {{/changelog.feature}}
 
   ### 🐞 Bug Fixes
-  {{#pullRequests}}
-  {{#contains $BODY '### Bug Fixes'}}
-  - $TITLE (#$NUMBER) by @$AUTHOR: $BODY
-  {{/contains}}
-  {{/pullRequests}}
+  {{#changelog.bug}}
+  - {{title}} (#{{number}}) by @{{author}}: {{body}}
+  {{/changelog.bug}}
 
   ### 📄 Documentation
-  {{#pullRequests}}
-  {{#contains $BODY '### Documentation'}}
-  - $TITLE (#$NUMBER) by @$AUTHOR: $BODY
-  {{/contains}}
-  {{/pullRequests}}
+  {{#changelog.documentation}}
+  - {{title}} (#{{number}}) by @{{author}}: {{body}}
+  {{/changelog.documentation}}
+
+  ### 🔧 Maintenance
+  {{#changelog.maintenance}}
+  - {{title}} (#{{number}}) by @{{author}}: {{body}}
+  {{/changelog.maintenance}}
 
   ## 🏅 Contributors
   {{#contributors}}
-  - @$USERNAME
+  - @{{username}}
   {{/contributors}}

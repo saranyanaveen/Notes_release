@@ -1,43 +1,57 @@
----
 name: Release Drafter
-tag: v{{version}}
+tag: "$NEW_VERSION"
 categories:
-  - title: ✨ Features
+  - title: "✨ Features"
     labels:
-      - feature
-  - title: 🐞 Bug Fixes
+      - "feature"
+  - title: "🐞 Bug Fixes"
     labels:
-      - bug
-  - title: 📄 Documentation
+      - "bug"
+  - title: "📄 Documentation"
     labels:
-      - documentation
-  - title: 🔧 Maintenance
+      - "documentation"
+  - title: "🔧 Maintenance"
     labels:
-      - maintenance
+      - "maintenance"
 template: |
-  ## 🚀 Release Notes for v{{version}}
+  ## 🚀 Release Notes for $NEW_VERSION
 
   ### ✨ Features
   {{#changelog.feature}}
   - {{title}} (#{{number}}) by @{{author}}: {{body}}
+  {{/changelog.feature}}
+  {{^changelog.feature}}
+  No feature changes in this release.
   {{/changelog.feature}}
 
   ### 🐞 Bug Fixes
   {{#changelog.bug}}
   - {{title}} (#{{number}}) by @{{author}}: {{body}}
   {{/changelog.bug}}
+  {{^changelog.bug}}
+  No bug fixes in this release.
+  {{/changelog.bug}}
 
   ### 📄 Documentation
   {{#changelog.documentation}}
   - {{title}} (#{{number}}) by @{{author}}: {{body}}
+  {{/changelog.documentation}}
+  {{^changelog.documentation}}
+  No documentation updates in this release.
   {{/changelog.documentation}}
 
   ### 🔧 Maintenance
   {{#changelog.maintenance}}
   - {{title}} (#{{number}}) by @{{author}}: {{body}}
   {{/changelog.maintenance}}
+  {{^changelog.maintenance}}
+  No maintenance updates in this release.
+  {{/changelog.maintenance}}
 
   ## 🏅 Contributors
   {{#contributors}}
   - @{{username}}
+  {{/contributors}}
+  {{^contributors}}
+  No contributors in this release.
   {{/contributors}}

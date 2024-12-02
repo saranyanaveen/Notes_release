@@ -1,0 +1,88 @@
+name: Release Drafter
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+
+jobs:
+  draft-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0   # Fetch entire history (necessary for tags)
+          fetch-tags: true  # Ensure tags are fetched
+
+      - name: Get the latest tag
+        id: get_version
+        run: |
+          # Fetch the latest tag or use a default if no tags are present
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
+          echo "Latest tag is $LATEST_TAG"
+
+      - name: Determine version bump type
+        id: determine_bump
+        run: |
+          # Default bump type
+          BUMP_TYPE="patch"
+
+          # Check commit messages for keywords
+          if git log -1 --pretty=%B | grep -iqE "BREAKING CHANGE"; then
+            BUMP_TYPE="major"
+          elif git log -1 --pretty=%B | grep -iqE "feat|feature|enhancement"; then
+            BUMP_TYPE="minor"
+          fi
+
+          echo "BUMP_TYPE=$BUMP_TYPE" >> $GITHUB_ENV
+          echo "Determined bump type is $BUMP_TYPE"
+
+      - name: Increment version
+        id: increment_version
+        run: |
+          # Strip 'v' from the tag and split into MAJOR, MINOR, and PATCH
+          LATEST_VERSION=${LATEST_TAG#v}
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$LATEST_VERSION"
+
+          # Increment based on the bump type
+          if [ "$BUMP_TYPE" = "major" ]; then
+            MAJOR=$((MAJOR + 1))
+            MINOR=0
+            PATCH=0
+          elif [ "$BUMP_TYPE" = "minor" ]; then
+            MINOR=$((MINOR + 1))
+            PATCH=0
+          else
+            PATCH=$((PATCH + 1))
+          fi
+
+          # Construct the new version
+          NEW_VERSION="v$MAJOR.$MINOR.$PATCH"
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+          echo "New version is $NEW_VERSION"
+
+      - name: Debug NEW_VERSION
+        run: |
+          echo "Resolved version: $NEW_VERSION"
+
+      - name: Update Release Drafter configuration
+        run: |
+          sed -i "s/\${RESOLVED_VERSION}/$NEW_VERSION/g" .github/release-drafter.yml
+          echo "Updated release-drafter.yml with version $NEW_VERSION"
+
+      - name: Release Drafter
+        uses: release-drafter/release-drafter@v6.0.0
+        with:
+          config-name: release-drafter.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

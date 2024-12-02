@@ -1,21 +1,19 @@
----
 name: Release Drafter
-tag: v{{version}}
+tag: "v{{Resolvedversion}}"
 categories:
-  - title: ✨ Features
-    labels:
-      - feature
-  - title: 🐞 Bug Fixes
-    labels:
-      - bug
-  - title: 📄 Documentation
-    labels:
-      - documentation
-  - title: 🔧 Maintenance
-    labels:
-      - maintenance
+
+  - label: feature
+    title: ✨ Features
+  - label: bug
+    title: 🐞 Bug Fixes
+  - label: documentation
+    title: 📄 Other Changes
+  - label: maintenance
+    title: 🔧 Maintenance
 template: |
+ 
   ## 🚀 Release Notes for v{{version}}
+
 
   ### ✨ Features
   {{#changelog.feature}}
@@ -39,5 +37,6 @@ template: |
 
   ## 🏅 Contributors
   {{#contributors}}
-  - @{{username}}
+  - @$USERNAME
+
   {{/contributors}}
